@@ -1,5 +1,6 @@
 import json
 import argparse
+import os
 
 def parse_args():
     parser = argparse.ArgumentParser(description="ensemble")
@@ -84,16 +85,14 @@ with open(jsonlfile, "w", encoding="utf-8") as f:
             if entity_count[m] >= (required_vote):
                 temp=[]
                 temp.append(entity_id_to_name[m])
-                temp.append([])
-                temp.append('')
+                temp.append("none")
                 annotation.append(temp)
 
             else: #과반수 넘는 entity 없을 경우, 제일 많은 entity로 적용
                 if max_count!=0 and entity_count[m]==max_count:
                     temp=[]
                     temp.append(entity_id_to_name[m])
-                    temp.append([])
-                    temp.append('')
+                    temp.append("none")
                     annotation.append(temp)
                        
 
@@ -101,13 +100,12 @@ with open(jsonlfile, "w", encoding="utf-8") as f:
         final_result['id']=id
         final_result['annotation']=annotation
         # print(final_result)
-        # json.dump(final_result, f, ensure_ascii=False) 
-        # f.write("\n")
-        data.append(final_result)
+        json.dump(final_result, f, ensure_ascii=False) 
+        f.write("\n")
 
 #json파일 생성
-# data = jsonlload(jsonlfile)
-json.dump(data, args.save_file)
-
+data = jsonlload(jsonlfile)
+jsondump(data, args.save_file)
+os.remove(jsonlfile)
 
 print(args.save_file, " ensemble finished!!")
