@@ -4,7 +4,7 @@ import os
 import copy
 
 
-from utils import jsonlload, parse_args
+from utils import jsonload, parse_args
 from utils import MODEL_PATH_MAP
 from utils import getParentPath, DATASET_PATHS 
 from utils import MODEL_PATH_MAP ,jsonldump
@@ -62,7 +62,7 @@ def test_sentiment_analysis(args):
     print('homePth:',homePth,', curPth:',os.getcwd())
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     num_added_toks = tokenizer.add_special_tokens(special_tokens_dict)
-    Final = jsonlload("/home/ksw2/hdd2/team2제출정리폴더/saved_result/ensemble/final.jsonl")
+    Final = jsonload("../saved_result/ensemble/final.json")
             
     polarity_model = ASC_model(args, len(polarity_id_to_name), len(tokenizer))
     polarity_model.load_state_dict(torch.load("../saved_model/ASC/ASC.pt", map_location=device))
